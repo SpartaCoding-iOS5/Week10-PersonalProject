@@ -23,7 +23,7 @@ struct PokemonDetail {
     /// 포켓몬 몸무게(Kg)
     let weight: Double
     /// 포켓몬 타입 목록
-    let types: [PokemonType]
+    let mainType: PokemonType?
     
     /// 표시할 이름 (한글이 있으면 한글, 없으면 영문)
     var displayName: String {
@@ -38,10 +38,5 @@ struct PokemonDetail {
     /// 표시할 몸무게
     var displayWeight: String {
         String(format: "%.1f Kg", weight)
-    }
-    
-    /// 포켓몬의 메인 타입
-    var mainType: PokemonType? {
-        types.first
     }
 }
