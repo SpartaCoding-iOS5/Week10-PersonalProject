@@ -81,7 +81,6 @@ class MainViewModel {
                     return Pokemon(
                         id: id,
                         name: item.name,
-                        koreanName: "",
                         imageUrl: imageUrl
                     )
                 }

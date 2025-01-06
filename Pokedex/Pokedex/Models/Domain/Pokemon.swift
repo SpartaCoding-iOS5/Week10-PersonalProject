@@ -14,13 +14,15 @@ struct Pokemon {
     /// 포켓몬 영문 이름
     let name: String
     /// 포켓몬 한글 이름
-    let koreanName: String
+    var koreanName: String {
+        return PokemonTranslator.getKoreanName(for: name)
+    }
     /// 포켓몬 이미지 URL
     let imageUrl: URL?
     
     /// 표시할 이름 (한글이 있으면 한글, 없으면 영문)
     var displayName: String {
-        koreanName.isEmpty ? name.capitalized : koreanName
+        return koreanName
     }
 }
 
