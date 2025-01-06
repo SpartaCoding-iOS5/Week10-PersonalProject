@@ -53,12 +53,14 @@ class MainViewModel {
     
     /// 포켓몬 리스트 데이터를 불러오는 함수
     private func fetchPokemonList() {
+        print("포켓몬 리스트 불러오기 시작")
         /// 로딩 시작하기
         loadingSubject.onNext(true)
         
         /// URL 생성
         let offset = currentPage * itemsPerPage
         guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?offset=\(offset)&limit=\(itemsPerPage)") else {
+            print("URL 생성 실패")
             errorSubject.onNext(NetworkError.invalidUrl)
             return
         }
@@ -67,10 +69,12 @@ class MainViewModel {
         NetworkManager.shared.fetch(url: url)
             .subscribe(onSuccess: { [weak self] (response: PokemonListResponse) in
                 // 포켓몬 모델로 변환
+                print("API 응답 받음: \(response.results.count)개의 포켓몬")
                 let pokemons = response.results.compactMap { item -> Pokemon? in
                     guard let id = item.id,
                           let imageUrlString = item.imageUrl,
                           let imageUrl = URL(string: imageUrlString) else {
+                        print("포켓몬 데이터 변환 실패: \(item.name)")
                         return nil
                     }
                     
@@ -82,6 +86,7 @@ class MainViewModel {
                     )
                 }
                 
+                print("변환된 포켓몬 수: \(pokemons.count)")
                 // 현재 리스트에 추가
                 if let currentPokemons = try? self?.pokemonListSubject.value() {
                     self?.pokemonListSubject.onNext(currentPokemons + pokemons)
@@ -93,6 +98,7 @@ class MainViewModel {
                 self?.loadingSubject.onNext(false)
             }, onFailure: { [weak self] error in
                 // 에러 전달
+                print("에러 발생: \(error)")
                 self?.errorSubject.onNext(error)
                 self?.loadingSubject.onNext(false)
             })
