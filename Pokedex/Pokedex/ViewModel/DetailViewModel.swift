@@ -63,7 +63,6 @@ class DetailViewModel {
                 let detail = PokemonDetail(
                     id: response.id,
                     name: response.name,
-                    koreanName: "",
                     imageURL: imageUrl,
                     height: response.heightInMeters,
                     weight: response.weightInKg,
