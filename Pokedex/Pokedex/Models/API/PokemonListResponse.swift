@@ -30,7 +30,7 @@ struct PokemonListItem: Codable {
     /// URL에서 포켓몬 ID 추출
     var id: Int? {
         /// URL :  https://pokeapi.co/api/v2/pokemon/id (id 추출)
-        guard let idString = url.split(separator: "/").dropLast().last else {
+        guard let idString = url.split(separator: "/").last else {
             return nil
         }
         return Int(idString)
@@ -39,6 +39,6 @@ struct PokemonListItem: Codable {
     /// 포켓몬 이미지 URL
     var imageUrl: String? {
         guard let id = id else { return nil }
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png"
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(id).png"
     }
 }
